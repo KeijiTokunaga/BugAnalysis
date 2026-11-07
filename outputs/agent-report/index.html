@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="開発者との対話と証拠に基づき、不具合の流入・流出・背景を整理する伴走型AIエージェントの取り組み提案。">
+<title>不具合分析を、修正から学習へ｜伴走型AIエージェント構想</title>
+<style>
+:root{--ink:#172b3c;--muted:#4d6371;--paper:#f4f6f3;--line:#d7dfda;--green:#126b54;--light:#e8f2ec}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;line-height:1.85}a{color:var(--green);text-underline-offset:4px}a:focus-visible,summary:focus-visible{outline:3px solid #b66b18;outline-offset:5px}.wrap{max-width:1100px;margin:auto;padding:0 32px}.skip{position:absolute;left:12px;top:-100px;background:white;padding:10px}.skip:focus{top:10px}header{padding:28px 0;border-bottom:1px solid var(--line)}.brand{font-size:13px;letter-spacing:.12em;font-weight:700}.meta{float:right;font-size:12px;color:var(--muted)}.hero{padding:72px 0 56px}.eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--green)}h1{font-size:clamp(32px,5vw,58px);line-height:1.35;letter-spacing:-.035em;margin:18px 0 24px}h2{font-size:clamp(24px,3vw,32px);line-height:1.5;margin:8px 0 24px}h3{font-size:18px;line-height:1.6;margin:0 0 12px}p{margin:0 0 16px}.lead{font-size:18px;max-width:800px;color:var(--muted)}.pill{display:inline-block;border:1px solid #8cad9c;border-radius:30px;padding:3px 12px;font-size:12px;margin-bottom:14px}.hero-note{border-left:3px solid var(--green);padding-left:20px;max-width:800px;margin-top:28px}nav{display:flex;gap:12px 24px;flex-wrap:wrap;padding:20px 0 28px;border-bottom:1px solid var(--line);font-size:13px}section{padding:52px 0;border-bottom:1px solid var(--line);scroll-margin-top:20px}.num{color:var(--green);font-size:12px;font-weight:700;letter-spacing:.1em}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.card{background:#fff;padding:25px;border:1px solid var(--line);border-radius:12px}.card p:last-child{margin-bottom:0}.small{font-size:13px;color:var(--muted)}.band{background:var(--ink);color:white;padding:28px;border-radius:12px;margin-top:22px}.band p:last-child{margin:0}.steps{list-style:none;counter-reset:step;padding:0;margin:26px 0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}.steps li{counter-increment:step;border-top:3px solid var(--green);padding:16px 8px 0 0}.steps li:before{content:"0" counter(step);display:block;font-size:12px;color:var(--green);font-weight:700}.steps strong{display:block;margin:6px 0}.steps span{font-size:13px;color:var(--muted)}.dialogue{background:white;border:1px solid var(--line);border-radius:12px;padding:28px;max-width:900px}.utterance{padding:16px 0;border-bottom:1px solid var(--line)}.utterance:last-child{border:0}.speaker{font-size:12px;font-weight:700;color:var(--green);margin-bottom:6px}.utterance p:last-child{margin:0}.finding{padding:20px;background:var(--light);border-radius:8px;margin-top:20px}.table-scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px;background:white}caption{text-align:left;font-weight:700;padding:0 0 12px}th{text-align:left;background:#e7ede8}th,td{padding:15px 18px;border-bottom:1px solid var(--line);vertical-align:top}th:first-child{width:21%}ul{padding-left:1.3em}li{margin:7px 0}details{background:white;border:1px solid var(--line);padding:18px 22px;border-radius:10px;margin-top:14px}summary{cursor:pointer;font-weight:700}details p{margin-top:14px}footer{padding:32px 0 46px;font-size:12px;color:var(--muted)}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.tag{font-size:12px;font-weight:700;color:var(--green)}@media(max-width:720px){.wrap{padding:0 20px}.meta{float:none;display:block;margin-top:6px}.hero{padding:42px 0 34px}.grid,.two,.steps{grid-template-columns:1fr}.steps{gap:18px}.steps li{padding:12px 0}.card,.dialogue{padding:20px}section{padding:36px 0}th,td{padding:12px;min-width:130px}nav{gap:10px 18px}.lead{font-size:16px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{body{background:white;font-size:10pt}.wrap{max-width:none;padding:0}header,.hero,section{padding:18px 0}h1{font-size:30pt}h2{font-size:19pt}nav,.skip{display:none}.card,.dialogue,.band,.finding{break-inside:avoid}.grid{gap:12px}.steps{grid-template-columns:repeat(5,1fr)}.table-scroll{overflow:visible}thead{display:table-header-group}tr{break-inside:avoid}a{color:inherit}.band{background:#edf1ee;color:var(--ink)}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">本文へ移動</a>
+<header><div class="wrap"><span class="brand">BUG ANALYSIS / QUALITY LEARNING</span><span class="meta">取り組み説明レポート · 2026.11.07 · 構想・提案段階</span></div></header>
+<main id="main" class="wrap">
+<div class="hero">
+<span class="pill">開発者に伴走する、不具合振り返りエージェント</span>
+<h1>不具合分析を、<br>修正から学習へ。</h1>
+<p class="lead">「単純なコーディングミス」で終わらせず、当時の前提・判断・制約を対話でひもとく。修正差分と仕様、テストの証拠をつなぎ、次の品質改善に使える記録を残します。</p>
+<div class="hero-note"><strong>目指す成果</strong><br>流入と流出を分けて説明できる分析、根拠を追える品質データ、原因に対応した改善策。</div>
+</div>
+<nav aria-label="レポート目次"><a href="#problem">01 課題</a><a href="#role">02 役割</a><a href="#flow">03 伴走の流れ</a><a href="#example">04 対話例</a><a href="#data">05 蓄積データ</a><a href="#trust">06 分析の信頼性</a><a href="#pilot">07 導入と評価</a><a href="#scope">08 最小構成</a></nav>
+
+<section id="problem"><div class="num">01 / WHY</div><h2>修正できても、原因の理解が残らない。</h2>
+<div class="grid"><article class="card"><h3>原因がラベルで止まる</h3><p>「条件分岐の漏れ」「確認不足」は現象の説明に近く、なぜその実装になったかが抜け落ちます。</p></article><article class="card"><h3>後からの解釈に偏る</h3><p>現在の仕様や修正後の理解で振り返ると、当時は分からなかったことまで「知っていたはず」と扱いがちです。</p></article><article class="card"><h3>記録が改善につながらない</h3><p>「レビューを徹底する」だけでは、何を変えると再発や流出を防げるかが具体化しません。</p></article></div>
+<div class="band"><p><strong>基本姿勢：非難ではなく、学習。</strong></p><p>問うのは「誰が間違えたか」ではなく、「どの情報と条件の下で、その判断が成立したか」。個人の評価に直結させず、システムとプロセスの改善に使います。</p></div></section>
+
+<section id="role"><div class="num">02 / CONCEPT</div><h2>証拠を読み、問いを絞り、説明を一緒に作る。</h2>
+<div class="grid"><article class="card"><span class="tag">READ</span><h3>事実を整理する</h3><p>不具合票、当時の仕様、修正差分、関連コード、テスト結果から、分かることと分からないことを整理します。</p></article><article class="card"><span class="tag">ASK</span><h3>判断の背景を聞く</h3><p>実装時の前提、仕様の曖昧さ、設計の迷い、時間や環境の制約を、回答を誘導せず一問ずつ確認します。</p></article><article class="card"><span class="tag">CONNECT</span><h3>改善につなげる</h3><p>発生の仕組みと検知できなかった理由を分け、根拠付きの分析案と、検証可能な対策を作ります。</p></article></div>
+<p class="small" style="margin-top:18px">AIは原因の認定者ではなく、分析と対話の支援者です。開発者の内心を推定して事実扱いせず、本人への確認と資料の裏付けを分けます。</p></section>
+
+<section id="flow"><div class="num">03 / WORKFLOW</div><h2>修正の流れに、短い振り返りを組み込む。</h2>
+<ol class="steps"><li><strong>事実をそろえる</strong><span>期待・実際・再現条件・影響を確認。</span></li><li><strong>証拠を読む</strong><span>仕様・差分・テストから原因候補を整理。</span></li><li><strong>背景を聞く</strong><span>当時の認識と、判断に影響した条件を確認。</span></li><li><strong>因果を確かめる</strong><span>流入・流出を分離し、別の説明も検討。</span></li><li><strong>合意して残す</strong><span>人が訂正・承認し、対策と効果確認へ。</span></li></ol>
+<div class="finding"><strong>修正を止めない運用</strong><br>緊急時は復旧・影響抑制を優先し、当時のログや判断を残します。深い振り返りは復旧後に行い、軽微な案件は簡潔に、重大・再発案件は詳しく扱います。</div></section>
+
+<section id="example"><div class="num">04 / CONVERSATION</div><h2>同じ「分岐漏れ」でも、背景は違う。</h2>
+<p>以下は架空の対話例です。実案件の分析結果ではありません。</p>
+<div class="dialogue">
+<div class="utterance"><div class="speaker">開発者</div><p>取消済みの注文を処理してしまいました。条件分岐の書き忘れです。</p></div>
+<div class="utterance"><div class="speaker">エージェント</div><p>差分では取消済みの場合の分岐が追加されています。実装時は、その状態の注文がこの処理に来る可能性をどう理解していましたか？</p></div>
+<div class="utterance"><div class="speaker">開発者</div><p>呼び出し元で除外されると思っていました。以前の処理がそうだったので。</p></div>
+<div class="utterance"><div class="speaker">エージェント</div><p>以前の処理を根拠にした前提だったのですね。当時の呼び出し元や仕様で、その前提を確認できる資料はありますか？</p></div>
+<div class="utterance"><div class="speaker">開発者</div><p>仕様には書かれていませんでした。テストも以前のケースを流用していました。</p></div>
+<div class="utterance"><div class="speaker">エージェント</div><p>「仕様に記載がない」は当時の版で確認しましょう。テストについては、取消状態を対象に含める判断や、状態一覧との照合があったかを確認できますか？</p></div>
+</div>
+<div class="finding"><strong>分析候補</strong>：直接原因は取消状態の処理不足。流入の背景には呼び出し元の保証に関する前提、流出には状態別テストの不足が関係する可能性があります。<strong>当時の資料を確認するまでは仮説として残します。</strong></div>
+</section>
+
+<section id="data"><div class="num">05 / QUALITY RECORD</div><h2>カテゴリを付ける前に、因果と根拠を残す。</h2>
+<div class="table-scroll"><table><caption>分析台帳の中心となる情報</caption><thead><tr><th scope="col">記録項目</th><th scope="col">記録する内容</th><th scope="col">分析の確認点</th></tr></thead><tbody>
+<tr><th scope="row">現象・影響</th><td>期待、実際、再現条件、重大度、実影響と潜在影響</td><td>何が、どの条件で、誰に影響したか</td></tr>
+<tr><th scope="row">直接原因</th><td>誤動作を起こしたコード・データ・状態の関係</td><td>現象を技術的に説明できるか</td></tr>
+<tr><th scope="row">流入</th><td>誤った前提・仕様・設計・実装が入った工程と版</td><td>発見工程と混同していないか。不明を許容しているか</td></tr>
+<tr><th scope="row">背景・寄与要因</th><td>当時の認識、参照情報、設計の迷い、制約</td><td>本人の説明と分析側の解釈を分けているか</td></tr>
+<tr><th scope="row">流出</th><td>検知できた可能性のある工程、確認範囲、検知を妨げた条件</td><td>その時点の情報で検知が可能だったか</td></tr>
+<tr><th scope="row">根拠・不確実性</th><td>資料の版・参照箇所、発言、検証結果、仮説、未確認事項</td><td>第三者が根拠を追い、別の説明を検討できるか</td></tr>
+<tr><th scope="row">対策・効果</th><td>修正、再発防止、流出防止、担当、期限、確認方法</td><td>対策が原因と対応し、効果を確かめられるか</td></tr>
+</tbody></table></div>
+<p style="margin-top:20px">原因カテゴリは最後に付け、複数要因を認めます。深い原因を無理に作らず、証拠が支える範囲で止めます。</p>
+<details><summary>プロジェクト特性・品質指標とのつながり</summary><p>不具合IDを機能・要件・リリース・変更IDと関連付け、要件数、総／変更ステップ数、重要度、検証範囲、利用条件を別台帳から参照します。不具合数・テスト失敗数・本番失敗処理数は別に数えます。</p><p>品質は件数だけで評価しません。規模に対する発見状況、利用者への影響、検証・観測の範囲を並べます。未計測をゼロとせず、計数定義が異なる製品間の単純な順位付けには使いません。</p><p><a href="../quality-profile-20261107/プロジェクト特性入力テンプレート.xlsx">関連成果物：プロジェクト特性入力テンプレート</a></p></details>
+</section>
+
+<section id="trust"><div class="num">06 / TRUST</div><h2>AIの断定を、仕組みで防ぐ。</h2>
+<div class="grid two"><article class="card"><h3>事実と仮説を分離</h3><p>資料で確認した事実、本人の説明、AIの仮説、未確認事項を区別。重要な主張には参照先と確認状態を持たせます。</p></article><article class="card"><h3>当時の情報で検証</h3><p>実装当時の仕様・コードを参照。修正差分だけで心理や流入工程を決めず、仮説と矛盾する証拠も探します。</p></article><article class="card"><h3>人が訂正・承認</h3><p>台帳への確定登録は人が確認。異論は記録し、重大案件では別の確認者もレビューします。</p></article><article class="card"><h3>話せる範囲を守る</h3><p>回答を強制せず、閲覧権限・保存期間・利用目的を設定。コード・ログの送信可否を確認し、秘密情報や不要な個人情報を除きます。</p></article></div>
+</section>
+
+<section id="pilot"><div class="num">07 / PILOT &amp; EVALUATION</div><h2>「分析が正しそう」ではなく、証拠と実用性で評価する。</h2>
+<p>まず、共有可能な過去案件を使い、軽微・重大・再発・仕様起因など異なる事例で試行します。対話前後の分析を、可能な範囲で作成方法を伏せて、開発・品質の確認者が同じ基準で評価します。</p>
+<div class="table-scroll"><table><caption>試行で確認する観点と記録</caption><thead><tr><th scope="col">観点</th><th scope="col">確認する内容</th><th scope="col">残す記録</th></tr></thead><tbody>
+<tr><th scope="row">根拠との整合</th><td>主要な主張を証拠で追えるか。裏付けのない断定がないか</td><td>根拠付き主張と確認対象主張の数、誤りの内容</td></tr>
+<tr><th scope="row">分析の深さ</th><td>直接原因・流入・流出を区別し、代替仮説を検討したか</td><td>評価理由、見落とし、確認者間の不一致</td></tr>
+<tr><th scope="row">改善への接続</th><td>原因に対応する対策と効果確認方法があるか</td><td>対策の実施・効果、類似不具合の再発</td></tr>
+<tr><th scope="row">開発者の負担</th><td>必要な背景を引き出せ、修正や復旧を妨げないか</td><td>対話時間、質問数、訂正内容、回答しやすさ</td></tr>
+</tbody></table></div>
+<div class="finding"><strong>評価の注意</strong><br>承認率の高さだけでは正しさを証明できません。再発件数も変更規模・検証・利用状況に左右されるため、AI単独の効果と断定しません。試行で基準と負担を確認してから適用範囲を広げます。</div>
+</section>
+
+<section id="scope"><div class="num">08 / FIRST RELEASE</div><h2>最初は、分析案を作るところまで。</h2>
+<div class="grid two"><article class="card"><h3>入力と出力</h3><p><strong>入力：</strong>不具合票、修正差分、関連コード、当時の仕様、テスト結果、開発者との対話。</p><p><strong>出力：</strong>根拠付き分析案、未確認事項、原因に対応した対策案、人による確認履歴。品質台帳へ転記できる形式で提供します。</p></article><article class="card"><h3>初期導入の境界</h3><p>自動修正・自動原因確定・個人の採点は対象に含めません。最初は手動で資料を渡し、対話と分析記録の有用性を検証します。</p><p>連携先、モデル、実行環境、保存先、費用、運用責任者は導入時に決定します。</p></article></div>
+<div class="band"><p><strong>この取り組みが残したいもの</strong></p><p>不具合の分類だけでなく、「どういう条件が実装を生み、なぜ検知できず、何を変えると防げるか」を、次の開発で使える形にした学習の記録です。</p></div>
+</section>
+</main>
+<footer><div class="wrap">BugAnalysis — 伴走型AI不具合分析エージェント構想<br>本レポートは対話を基にした提案です。エージェントの実装、実案件での精度検証、導入効果の実測は未実施です。対話例は架空です。</div></footer>
+</body></html>
